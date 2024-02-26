@@ -21,6 +21,14 @@ class WebSocketService {
         };
     }
   
+    safeSend(message: string) {
+        if (websocketService.socket && websocketService.socket.readyState === WebSocket.OPEN) {
+            websocketService.send(message);
+        } else {
+            console.error('WebSocket is not open. Message not sent:', message);
+        }
+    }
+
     send(data: string) {
         if (!this.socket) {
             console.error('WebSocket is not connected.');

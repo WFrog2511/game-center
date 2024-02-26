@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { websocketService } from '../services/websocketService';
 
 interface Position {
   x: number;
@@ -10,13 +9,34 @@ const DrawingCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
+  const [ws, setWs] = useState<WebSocket | null>(null);
 
   useEffect(() => {
-    // WebSocketサーバーへの接続を開始
-    websocketService.connect('ws://localhost:8080/ws');
-
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
+
+    // WebSocketサーバーへの接続を開始
+    if(!ws){
+      const _ws = new WebSocket('ws://localhost:8080/ws');
+      _ws.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+        if (message.fromX !== undefined && context) {
+          console.log("onmessage: ", message);
+          drawLine(context, message.fromX, message.fromY, message.toX, message.toY);
+        }
+      };
+      setWs(_ws);
+    }
+
+    function drawLine(context: CanvasRenderingContext2D, fromX: number, fromY: number, toX: number, toY: number) {
+      console.log("drawLine: ", fromX, fromY, toX, toY);
+      context.beginPath();
+      context.moveTo(fromX, fromY);
+      context.lineTo(toX, toY);
+      context.stroke();
+      context.closePath();
+    }
+
 
     if (!canvas || !context) return;
 
@@ -34,13 +54,15 @@ const DrawingCanvas: React.FC = () => {
       context.stroke();
 
       // WebSocketを通じて描画データをサーバーに送信
-      websocketService.send(JSON.stringify({
-        fromX: position.x,
-        fromY: position.y,
-        toX: event.offsetX,
-        toY: event.offsetY,
-      }));
-
+      if (ws && ws.readyState === WebSocket.OPEN){
+        ws.send(JSON.stringify({
+          fromX: position.x,
+          fromY: position.y,
+          toX: event.offsetX,
+          toY: event.offsetY,
+        }));
+      }
+      
       setPosition({ x: event.offsetX, y: event.offsetY });
     };
 

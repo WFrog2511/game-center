@@ -2,16 +2,20 @@ package main
 
 import (
 	"net/http"
+	"sync"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
-		// すべてのオリジンを許可する（本番環境ではセキュリティを考慮してください）
-		return true
+		return true // 本番環境ではセキュリティを考慮してください
 	},
 }
+
+var connections = make([]*websocket.Conn, 0)
+var lock sync.Mutex
 
 func main() {
 	r := gin.Default()
@@ -20,7 +24,7 @@ func main() {
 		wshandler(c.Writer, c.Request)
 	})
 
-	r.Run(":8080") // デフォルトでは8080ポートでサーバーを起動
+	r.Run(":8080")
 }
 
 func wshandler(w http.ResponseWriter, r *http.Request) {
@@ -30,16 +34,34 @@ func wshandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer conn.Close()
+	lock.Lock()
+	connections = append(connections, conn)
+	lock.Unlock()
+
+	defer func() {
+		conn.Close()
+		lock.Lock()
+		for i, c := range connections {
+			if c == conn {
+				connections = append(connections[:i], connections[i+1:]...)
+				break
+			}
+		}
+		lock.Unlock()
+	}()
 
 	for {
 		mt, message, err := conn.ReadMessage()
 		if err != nil {
 			break
 		}
-		// 受信したメッセージを全クライアントにブロードキャスト（ここでは単純化のために同じコネクションに送り返しています）
-		if err := conn.WriteMessage(mt, message); err != nil {
-			break
+
+		lock.Lock()
+		for _, c := range connections {
+			if err := c.WriteMessage(mt, message); err != nil {
+				// エラーハンドリング
+			}
 		}
+		lock.Unlock()
 	}
 }
