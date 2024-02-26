@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app  # ホストのbackendディレクトリをコンテナの/appにマウント
+    ports:
+      - "8080:8080"
+    environment:
+      - GIN_MODE=debug  # Ginの開発モードを有効にする
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app  # ホストのfrontendディレクトリをコンテナの/appにマウント
+    ports:
+      - "3000:3000"
