@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <DrawingCanvas></DrawingCanvas>
+        <DrawingCanvas websocketUrl='ws://localhost:8080/ws' width={800} height={600}></DrawingCanvas>
       </header>
     </div>
   );
