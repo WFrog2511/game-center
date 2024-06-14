@@ -12,9 +12,10 @@ export default class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('player', 'assets/images/player.png');
-        this.load.image('enemy', 'assets/images/enemy.png');
-        this.load.image('healthPack', 'assets/images/health-pack.png');
+        // publicから先のパスを記入する
+        this.load.image('player',   '/game/multi_shooting/images/player.png');
+        this.load.image('enemy',    '/game/multi_shooting/images/enemy.png');
+        this.load.image('healthPack', '/game/multi_shooting/images/health_pack.png');
     }
 
     create() {
@@ -23,21 +24,21 @@ export default class GameScene extends Phaser.Scene {
         this.healthPacks = this.physics.add.group();
 
         this.time.addEvent({
-        delay: 1000,
-        callback: () => {
-            const enemy = new Enemy(this, Phaser.Math.Between(50, 750), 0);
-            this.enemies.add(enemy.sprite);
-        },
-        loop: true
+            delay: 1000,
+            callback: () => {
+                const enemy = new Enemy(this, Phaser.Math.Between(50, 750), 0);
+                this.enemies.add(enemy.sprite);
+            },
+            loop: true
         });
 
         this.time.addEvent({
-        delay: 5000,
-        callback: () => {
-            const healthPack = new HealthPack(this, Phaser.Math.Between(50, 750), 0);
-            this.healthPacks.add(healthPack.sprite);
-        },
-        loop: true
+            delay: 5000,
+            callback: () => {
+                const healthPack = new HealthPack(this, Phaser.Math.Between(50, 750), 0);
+                this.healthPacks.add(healthPack.sprite);
+            },
+            loop: true
         });
 
         this.physics.add.overlap(this.player.sprite, this.enemies, this.hitEnemy, undefined, this);
