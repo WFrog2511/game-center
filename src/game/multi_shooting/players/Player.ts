@@ -49,6 +49,11 @@ export default class Player {
             this.sprite.setVelocityX(this.diagonalSpeed);
             this.sprite.setVelocityY(this.diagonalSpeed);
         }
+
+        // プレイヤーをマウスカーソルの方向に回転させる
+        const pointer = this.sprite.scene.input.activePointer;
+        const angle = Phaser.Math.Angle.Between(this.sprite.x, this.sprite.y, pointer.worldX, pointer.worldY) + Math.PI / 2;
+        this.sprite.setRotation(angle);
     }
   
     decreaseHealth(amount: number) {
