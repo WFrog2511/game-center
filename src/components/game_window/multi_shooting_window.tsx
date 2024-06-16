@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
-import MainMenu from '../../game/multi_shooting/scenes/MainMenu';
-import GameScene from '../../game/multi_shooting/scenes/GameScene';
-import GameOverScene from '../../game/multi_shooting/scenes/GameOverScene';
+
+import {gameConfig} from '../../game/multi_shooting/config/GameConfig';
 
 const multi_shooting_window = () => {
     const gameArea = useRef(null);
@@ -12,20 +11,8 @@ const multi_shooting_window = () => {
             if (!gameArea.current) return;
 
             // Next.jsでPhaserを使うためには、import()を使ってPhaserを動的に読み込む必要がある
-            const config: Phaser.Types.Core.GameConfig = {
-                type: Phaser.AUTO,
-                width: 800,
-                height: 600,
-                parent: gameArea.current,
-                scene: [MainMenu, GameScene, GameOverScene],
-                physics: {
-                    default: 'arcade',
-                    arcade: {
-                        gravity: {x: 0, y: 300 },
-                        debug: false
-                    }
-                }
-            };
+            const config = gameConfig;
+            config.parent = gameArea.current;
             new Phaser.Game(config);
         }
         makeGame();
