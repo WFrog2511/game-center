@@ -1,23 +1,53 @@
+import KeyConfig from '../config/KeyConfig';
+
 export default class Player {
     public sprite: Phaser.Physics.Arcade.Sprite;
     private health: number;
+    private straightSpeed: number;
+    private diagonalSpeed: number;
+    private keyConfig: KeyConfig;
   
     constructor(scene: Phaser.Scene, x: number, y: number) {
         this.sprite = scene.physics.add.sprite(x, y, 'player');
         this.sprite.setCollideWorldBounds(true);
         this.health = 100;
+        this.straightSpeed = 160;
+        this.diagonalSpeed = 160 * (1 ** 0.5);
+        this.keyConfig = new KeyConfig(scene);
     }
   
     update() {
-        if (!this.sprite.scene.input.keyboard) return;
+        this.sprite.setVelocity(0);
         
-        const { left, right } = this.sprite.scene.input.keyboard.createCursorKeys();
-        if (left.isDown) {
-            this.sprite.setVelocityX(-160);
-        } else if (right.isDown) {
-            this.sprite.setVelocityX(160);
-        } else {
-            this.sprite.setVelocityX(0);
+        if (this.keyConfig.left?.isDown) {
+            this.sprite.setVelocityX(-this.straightSpeed);
+        }
+        if (this.keyConfig.right?.isDown) {
+            this.sprite.setVelocityX(this.straightSpeed);
+        }
+        if (this.keyConfig.up?.isDown) {
+            this.sprite.setVelocityY(-this.straightSpeed);
+        }
+        if (this.keyConfig.down?.isDown) {
+            this.sprite.setVelocityY(this.straightSpeed);  
+        }
+
+        // 斜め移動の速度調整
+        if (this.keyConfig.left?.isDown && this.keyConfig.up?.isDown) {
+            this.sprite.setVelocityX(-this.diagonalSpeed);
+            this.sprite.setVelocityY(-this.diagonalSpeed);
+        }
+        if (this.keyConfig.left?.isDown && this.keyConfig.down?.isDown) {
+            this.sprite.setVelocityX(-this.diagonalSpeed);
+            this.sprite.setVelocityY(this.diagonalSpeed);
+        }
+        if (this.keyConfig.right?.isDown && this.keyConfig.up?.isDown) {
+            this.sprite.setVelocityX(this.diagonalSpeed);
+            this.sprite.setVelocityY(-this.diagonalSpeed);
+        }
+        if (this.keyConfig.right?.isDown && this.keyConfig.down?.isDown) {
+            this.sprite.setVelocityX(this.diagonalSpeed);
+            this.sprite.setVelocityY(this.diagonalSpeed);
         }
     }
   
