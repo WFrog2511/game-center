@@ -1,16 +1,19 @@
-export default class Enemy {
-    public sprite: Phaser.Physics.Arcade.Sprite;
-  
+export default class Enemy extends Phaser.Physics.Arcade.Sprite{  
+    private speed: number;
+    
     constructor(scene: Phaser.Scene, x: number, y: number) {
-        this.sprite = scene.physics.add.sprite(x, y, 'enemy');
-        this.sprite.setVelocityY(Phaser.Math.Between(50, 100));
-        this.sprite.setCollideWorldBounds(true);
-        this.sprite.setBounce(1, 1);
+        super(scene, x, y, 'enemy');
+        scene.add.existing(this);
+        scene.physics.add.existing(this);
+        
+        this.speed = Phaser.Math.Between(50, 200);
     }
   
     update() {
-        if (this.sprite.y > 600) {
-            this.sprite.destroy();
+        super.update();
+        super.setVelocityY(this.speed);
+        if (this.y > 600) {
+            super.destroy();
         }
     }
 }

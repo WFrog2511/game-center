@@ -1,16 +1,17 @@
 import KeyConfig from '../config/KeyConfig';
 import Bullet from '../attacks/Bullet';
 
-export default class Player {
-    public sprite: Phaser.Physics.Arcade.Sprite;
+export default class Player extends Phaser.Physics.Arcade.Sprite{
     private health: number;
     private straightSpeed: number;
     private diagonalSpeed: number;
     private keyConfig: KeyConfig;
   
     constructor(scene: Phaser.Scene, x: number, y: number) {
-        this.sprite = scene.physics.add.sprite(x, y, 'player');
-        this.sprite.setCollideWorldBounds(true);
+        super(scene, x, y, 'player');
+        scene.add.existing(this);
+        scene.physics.add.existing(this);
+
         this.health = 100;
         this.straightSpeed = 160;
         this.diagonalSpeed = 160 / (2 ** 0.5);
@@ -18,54 +19,54 @@ export default class Player {
     }
   
     update() {
-        this.sprite.setVelocity(0);
+        this.setVelocity(0);
         
         if (this.keyConfig.left?.isDown) {
-            this.sprite.setVelocityX(-this.straightSpeed);
+            this.setVelocityX(-this.straightSpeed);
         }
         if (this.keyConfig.right?.isDown) {
-            this.sprite.setVelocityX(this.straightSpeed);
+            this.setVelocityX(this.straightSpeed);
         }
         if (this.keyConfig.up?.isDown) {
-            this.sprite.setVelocityY(-this.straightSpeed);
+            this.setVelocityY(-this.straightSpeed);
         }
         if (this.keyConfig.down?.isDown) {
-            this.sprite.setVelocityY(this.straightSpeed);  
+            this.setVelocityY(this.straightSpeed);  
         }
 
         // 斜め移動の速度調整
         if (this.keyConfig.left?.isDown && this.keyConfig.up?.isDown) {
-            this.sprite.setVelocityX(-this.diagonalSpeed);
-            this.sprite.setVelocityY(-this.diagonalSpeed);
+            this.setVelocityX(-this.diagonalSpeed);
+            this.setVelocityY(-this.diagonalSpeed);
         }
         if (this.keyConfig.left?.isDown && this.keyConfig.down?.isDown) {
-            this.sprite.setVelocityX(-this.diagonalSpeed);
-            this.sprite.setVelocityY(this.diagonalSpeed);
+            this.setVelocityX(-this.diagonalSpeed);
+            this.setVelocityY(this.diagonalSpeed);
         }
         if (this.keyConfig.right?.isDown && this.keyConfig.up?.isDown) {
-            this.sprite.setVelocityX(this.diagonalSpeed);
-            this.sprite.setVelocityY(-this.diagonalSpeed);
+            this.setVelocityX(this.diagonalSpeed);
+            this.setVelocityY(-this.diagonalSpeed);
         }
         if (this.keyConfig.right?.isDown && this.keyConfig.down?.isDown) {
-            this.sprite.setVelocityX(this.diagonalSpeed);
-            this.sprite.setVelocityY(this.diagonalSpeed);
+            this.setVelocityX(this.diagonalSpeed);
+            this.setVelocityY(this.diagonalSpeed);
         }
 
         // プレイヤーをマウスカーソルの方向に回転させる
-        const pointer = this.sprite.scene.input.activePointer;
-        const angle = Phaser.Math.Angle.Between(this.sprite.x, this.sprite.y, pointer.worldX, pointer.worldY) + Math.PI / 2;
-        this.sprite.setRotation(angle);
+        const pointer = this.scene.input.activePointer;
+        const angle = Phaser.Math.Angle.Between(this.x, this.y, pointer.worldX, pointer.worldY) + Math.PI / 2;
+        this.setRotation(angle);
     }
 
     shoot(bullets: Phaser.Physics.Arcade.Group) {
-        const bullet = new Bullet(this.sprite.scene, this.sprite.x, this.sprite.y, this.sprite.rotation);
+        const bullet = new Bullet(this.scene, this.x, this.y, this.rotation);
         bullets.add(bullet);
     }
   
     decreaseHealth(amount: number) {
         this.health -= amount;
         if (this.health <= 0) {
-            this.sprite.scene.scene.start('GameOverScene');
+            this.scene.scene.start('GameOverScene');
         }
     }
   

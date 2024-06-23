@@ -1,13 +1,14 @@
 import Player from '../players/Player';
 import Enemy from '../enemies/Enemy';
 import HealthPack from '../items/HealthPack';
-import Bullet from '../attacks/Bullet';
 
 export default class GameScene extends Phaser.Scene {
     private player!: Player;
     private enemies!: Phaser.Physics.Arcade.Group;
     private healthPacks!: Phaser.Physics.Arcade.Group;
     private bullets!: Phaser.Physics.Arcade.Group;
+
+    private readonly MAX_HEALTH_PACKS = 3;
 
     constructor() {
         super({ key: 'GameScene' });
@@ -39,14 +40,15 @@ export default class GameScene extends Phaser.Scene {
         this.time.addEvent({
             delay: 5000,
             callback: () => {
-                const healthPack = new HealthPack(this, Phaser.Math.Between(50, 750), 0);
-                this.healthPacks.add(healthPack.sprite);
+                if(this.healthPacks.children.size > this.MAX_HEALTH_PACKS - 1) return;
+                const healthPack = new HealthPack(this, Phaser.Math.Between(5, 800-5), Phaser.Math.Between(5, 600-5));
+                this.healthPacks.add(healthPack);
             },
             loop: true
         });
 
-        this.physics.add.overlap(this.player.sprite, this.enemies, this.hitEnemy, undefined, this);
-        this.physics.add.overlap(this.player.sprite, this.healthPacks, this.collectHealthPack, undefined, this);
+        this.physics.add.overlap(this.player, this.enemies, this.hitEnemy, undefined, this);
+        this.physics.add.overlap(this.player, this.healthPacks, this.collectHealthPack, undefined, this);
         
         // クリックイベントのリスナーを設定
         this.input.on('pointerdown', () => {
