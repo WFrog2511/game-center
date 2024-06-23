@@ -1,4 +1,5 @@
 import KeyConfig from '../config/KeyConfig';
+import Bullet from '../attacks/Bullet';
 
 export default class Player {
     public sprite: Phaser.Physics.Arcade.Sprite;
@@ -12,7 +13,7 @@ export default class Player {
         this.sprite.setCollideWorldBounds(true);
         this.health = 100;
         this.straightSpeed = 160;
-        this.diagonalSpeed = 160 * (1 ** 0.5);
+        this.diagonalSpeed = 160 / (2 ** 0.5);
         this.keyConfig = new KeyConfig(scene);
     }
   
@@ -54,6 +55,11 @@ export default class Player {
         const pointer = this.sprite.scene.input.activePointer;
         const angle = Phaser.Math.Angle.Between(this.sprite.x, this.sprite.y, pointer.worldX, pointer.worldY) + Math.PI / 2;
         this.sprite.setRotation(angle);
+    }
+
+    shoot(bullets: Phaser.Physics.Arcade.Group) {
+        const bullet = new Bullet(this.sprite.scene, this.sprite.x, this.sprite.y, this.sprite.rotation);
+        bullets.add(bullet);
     }
   
     decreaseHealth(amount: number) {
