@@ -1,5 +1,10 @@
+import Enemy from '../enemies/Enemy';
 export default class Bullet extends Phaser.Physics.Arcade.Sprite{
-    private speed = 500;
+    protected speed = 500;
+    protected penetration = 100;
+    protected damage = 50;
+
+    private hitEnemies : Phaser.Physics.Arcade.Group;
     private readonly ANGLE_OFSET = Math.PI/2;
     private init_angle = 0;
   
@@ -10,6 +15,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite{
 
         this.setRotation(angle);
         this.init_angle = angle;
+        this.hitEnemies = scene.physics.add.group();
     }
 
     update(){
@@ -20,6 +26,28 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite{
     autoRotate(){
         const _speed = this.scene.physics.velocityFromRotation(this.init_angle-this.ANGLE_OFSET, this.speed, this.body?.velocity);
         super.setVelocity(_speed.x, _speed.y);
+    }
+
+    hitEnemy(enemy: Enemy){
+        if(this.hitEnemies.contains(enemy)) return false; // すでにヒットしている敵は処理しない
+        this.hitEnemies.add(enemy);
+        this.decreasePenetration(enemy.getHardness());
+
+        return true;
+    }
+
+    decreasePenetration(amount: number){
+        this.penetration -= amount;
+        if(this.penetration <= 0){
+            this.destroy();
+        }
+    }
+
+    getDamage(){
+        return this.damage;
+    }
+    getPenetration(){
+        return this.penetration;
     }
 }
   

@@ -1,6 +1,7 @@
 import Player from '../players/Player';
 import Enemy from '../enemies/Enemy';
 import HealthPack from '../items/HealthPack';
+import Bullet from '../attacks/Bullet';
 
 export default class GameScene extends Phaser.Scene {
     private player!: Player;
@@ -83,7 +84,9 @@ export default class GameScene extends Phaser.Scene {
         this.player.increaseHealth(20);
     }
 
-    bulletHitEnemy(bullet: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, enemy: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
-        enemy.destroy();
+    bulletHitEnemy(bullet: Bullet | Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, enemy: Enemy | Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
+        if (bullet instanceof Bullet && enemy instanceof Enemy){
+            if(bullet.hitEnemy(enemy)) enemy.decreaseHealth(bullet.getDamage());
+        }
     }
 }

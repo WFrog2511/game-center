@@ -1,5 +1,7 @@
 export default class Enemy extends Phaser.Physics.Arcade.Sprite{  
-    private speed: number;
+    protected speed: number;
+    public health = 100;
+    protected hardness = 50;
     
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'enemy');
@@ -15,6 +17,17 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite{
         if (this.y > 600) {
             super.destroy();
         }
+    }
+
+    decreaseHealth(amount: number) {
+        this.health -= amount;
+        if (this.health <= 0) {
+            this.destroy();
+        }
+    }
+
+    getHardness() {
+        return this.hardness;
     }
 }
   
