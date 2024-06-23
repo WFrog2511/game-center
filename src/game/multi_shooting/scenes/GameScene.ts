@@ -47,9 +47,11 @@ export default class GameScene extends Phaser.Scene {
             loop: true
         });
 
-        this.physics.add.overlap(this.player, this.enemies, this.hitEnemy, undefined, this);
-        this.physics.add.overlap(this.player, this.healthPacks, this.collectHealthPack, undefined, this);
+        this.physics.add.overlap(this.player, this.enemies, this.playerHitEnemy, undefined, this);
+        this.physics.add.overlap(this.player, this.healthPacks, this.playerCollectHealthPack, undefined, this);
+        this.physics.add.overlap(this.bullets, this.enemies, this.bulletHitEnemy, undefined, this);
         
+
         // クリックイベントのリスナーを設定
         this.input.on('pointerdown', () => {
             this.player.shoot(this.bullets);
@@ -71,13 +73,17 @@ export default class GameScene extends Phaser.Scene {
     }
 
     // 引数の型定義が長すぎて読みづらいが、この形でなければthis.physics.add.overlap()の引数に渡した際にエラーが出る
-    hitEnemy(player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, enemy: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
+    playerHitEnemy(player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, enemy: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
         enemy.destroy();
         this.player.decreaseHealth(10);
     }
 
-    collectHealthPack(player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, healthPack: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
+    playerCollectHealthPack(player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, healthPack: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
         healthPack.destroy();
         this.player.increaseHealth(20);
+    }
+
+    bulletHitEnemy(bullet: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile, enemy: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) {
+        enemy.destroy();
     }
 }
