@@ -89,4 +89,8 @@ export default class GameScene extends Phaser.Scene {
             if(bullet.hitEnemy(enemy)) enemy.decreaseHealth(bullet.getDamage());
         }
     }
+
+    getPlayer(){
+        return this.player;
+    }
 }
