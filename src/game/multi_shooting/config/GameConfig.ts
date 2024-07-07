@@ -11,7 +11,7 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
         default: 'arcade',
         arcade: {
             gravity: { x: 0, y: 0 },
-            debug: false
+            debug: true // デバッグモードを有効にする
         }
     }
 };

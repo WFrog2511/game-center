@@ -5,7 +5,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite{
     protected speed: number;
     public health = 100;
     protected hardness = 50;
-    
+
     constructor(scene: GameScene, x: number, y: number) {
         super(scene, x, y, 'enemy');
         this.scene = scene;
@@ -13,6 +13,20 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite{
         scene.physics.add.existing(this);
         
         this.speed = Phaser.Math.Between(50, 200);
+    }
+
+    static spawn(scene: GameScene) {
+        // マップの生成処理をまだ作っていないため 仮の座標を指定
+        let spawn_x, spawn_y;
+        if (Math.random() < 0.5) {
+            spawn_x = Phaser.Math.Between(50, 750);
+            spawn_y = Math.random() < 0.5 ? 0 : 600;
+        } else {
+            spawn_x = Math.random() < 0.5 ? 0 : 800;
+            spawn_y = Phaser.Math.Between(50, 550);
+        }
+
+        return new Enemy(scene, spawn_x, spawn_y);
     }
   
     update() {

@@ -32,7 +32,7 @@ export default class GameScene extends Phaser.Scene {
         this.time.addEvent({
             delay: 1000,
             callback: () => {
-                const enemy = new Enemy(this, Phaser.Math.Between(50, 750), 0);
+                const enemy = Enemy.spawn(this);
                 this.enemies.add(enemy);
             },
             loop: true
