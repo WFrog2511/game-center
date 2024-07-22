@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 
 const ShootingGame = () => {
     //dynamicImportを用いて、game.tsxを読み込む
-    const Game = dynamic(import("../../components/game_window/multi_shooting_window"), {
+    const Game = dynamic(import("@/components/game_window/multi_shooting_window"), {
         //これで、ssrが実行されない
         ssr: false,
         //読み込んでいる途中に表示されるコンポーネント

@@ -1,5 +1,5 @@
-import KeyConfig from '../config/KeyConfig';
-import Bullet from '../attacks/Bullet';
+import KeyConfig from '@/game/multi_shooting/config/KeyConfig';
+import Bullet from '@/game/multi_shooting/attacks/Bullet';
 
 export default class Player extends Phaser.Physics.Arcade.Sprite{
     private health: number;
