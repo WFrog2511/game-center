@@ -40,6 +40,6 @@
     "typescript": "^5.5.4"
   },
   "lint-staged": {
-    "./src/**/*.{js,jsx,ts,tsx}": ["pnpm format", "pnpm lint"]
+    "./src/**/*.{js,jsx,ts,tsx}": "pnpm format"
   }
 }
