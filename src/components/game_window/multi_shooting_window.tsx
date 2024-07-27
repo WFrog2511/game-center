@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import Phaser from "phaser";
 
-import { gameConfig } from "../../game/multi_shooting/config/GameConfig";
+import { gameConfig } from "@/game/multi_shooting/config/GameConfig";
 
 const Multi_shooting_window = () => {
 	const gameArea = useRef(null);

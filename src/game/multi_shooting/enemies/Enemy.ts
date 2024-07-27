@@ -1,4 +1,4 @@
-import GameScene from "../scenes/GameScene";
+import GameScene from "@/game/multi_shooting/scenes/GameScene";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 	public scene: GameScene;

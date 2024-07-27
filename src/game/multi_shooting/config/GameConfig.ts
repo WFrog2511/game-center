@@ -1,6 +1,6 @@
-import MainMenu from "../scenes/MainMenu";
-import GameScene from "../scenes/GameScene";
-import GameOverScene from "../scenes/GameOverScene";
+import MainMenu from "@/game/multi_shooting/scenes/MainMenu";
+import GameScene from "@/game/multi_shooting/scenes/GameScene";
+import GameOverScene from "@/game/multi_shooting/scenes/GameOverScene";
 
 export const gameConfig: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
