@@ -1,0 +1,3 @@
+pnpm dlx lint-staged
+pnpm test
+git update-index --again
