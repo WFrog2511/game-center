@@ -1,0 +1,8 @@
+{
+	"editor.tabSize": 2,
+	"editor.insertSpaces": false, // スペースの代わりにタブを使用
+	"prettier.useTabs": true,
+	"prettier.tabWidth": 2,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true
+}
