@@ -17,16 +17,16 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
 	static spawn(scene: GameScene) {
 		// マップの生成処理をまだ作っていないため 仮の座標を指定
-		let spawn_x, spawn_y;
+		let spawnX, spawnY;
 		if (Math.random() < 0.5) {
-			spawn_x = Phaser.Math.Between(50, 750);
-			spawn_y = Math.random() < 0.5 ? 0 : 600;
+			spawnX = Phaser.Math.Between(50, 750);
+			spawnY = Math.random() < 0.5 ? 0 : 600;
 		} else {
-			spawn_x = Math.random() < 0.5 ? 0 : 800;
-			spawn_y = Phaser.Math.Between(50, 550);
+			spawnX = Math.random() < 0.5 ? 0 : 800;
+			spawnY = Phaser.Math.Between(50, 550);
 		}
 
-		return new Enemy(scene, spawn_x, spawn_y);
+		return new Enemy(scene, spawnX, spawnY);
 	}
 
 	update() {

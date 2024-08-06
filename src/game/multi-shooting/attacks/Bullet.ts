@@ -6,7 +6,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 
 	private hitEnemies: Phaser.Physics.Arcade.Group;
 	private readonly ANGLE_OFSET = Math.PI / 2;
-	private init_angle = 0;
+	private initAngle = 0;
 
 	constructor(scene: Phaser.Scene, x: number, y: number, angle: number) {
 		super(scene, x, y, "bullet");
@@ -14,7 +14,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		scene.physics.add.existing(this);
 
 		this.setRotation(angle);
-		this.init_angle = angle;
+		this.initAngle = angle;
 		this.hitEnemies = scene.physics.add.group();
 	}
 
@@ -25,7 +25,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 
 	autoRotate() {
 		const _speed = this.scene.physics.velocityFromRotation(
-			this.init_angle - this.ANGLE_OFSET,
+			this.initAngle - this.ANGLE_OFSET,
 			this.speed,
 			this.body?.velocity,
 		);
