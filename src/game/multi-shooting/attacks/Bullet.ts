@@ -1,4 +1,4 @@
-import Enemy from "@/game/multi_shooting/enemies/Enemy";
+import Enemy from "@/game/multi-shooting/enemies/Enemy";
 export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 	protected speed = 500;
 	protected penetration = 100;

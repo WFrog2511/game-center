@@ -1,7 +1,7 @@
-import Player from "@/game/multi_shooting/players/Player";
-import Enemy from "@/game/multi_shooting/enemies/Enemy";
-import HealthPack from "@/game/multi_shooting/items/HealthPack";
-import Bullet from "@/game/multi_shooting/attacks/Bullet";
+import Player from "@/game/multi-shooting/players/Player";
+import Enemy from "@/game/multi-shooting/enemies/Enemy";
+import HealthPack from "@/game/multi-shooting/items/HealthPack";
+import Bullet from "@/game/multi-shooting/attacks/Bullet";
 
 export default class GameScene extends Phaser.Scene {
 	private player!: Player;
