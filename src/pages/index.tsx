@@ -5,7 +5,7 @@ const HomePage = () => (
 		<h1>Welcome to Game Center</h1>
 		<ul>
 			<li>
-				<Link href="/games/multi_shooting">2D Cooperative Shooting Game</Link>
+				<Link href="/games/MultiShooting">2D Cooperative Shooting Game</Link>
 			</li>
 			{/* 他のゲームのリンクを追加 */}
 		</ul>

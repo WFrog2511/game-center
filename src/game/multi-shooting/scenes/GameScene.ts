@@ -17,13 +17,13 @@ export default class GameScene extends Phaser.Scene {
 
 	preload() {
 		// publicから先のパスを記入する
-		this.load.image("player", "/game/multi_shooting/images/player.png");
-		this.load.image("enemy", "/game/multi_shooting/images/enemy.png");
+		this.load.image("player", "/game/multi-shooting/images/player.png");
+		this.load.image("enemy", "/game/multi-shooting/images/enemy.png");
 		this.load.image(
 			"healthPack",
-			"/game/multi_shooting/images/health_pack.png",
+			"/game/multi-shooting/images/health-pack.png",
 		);
-		this.load.image("bullet", "/game/multi_shooting/images/bullet.png");
+		this.load.image("bullet", "/game/multi-shooting/images/bullet.png");
 	}
 
 	create() {
