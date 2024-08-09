@@ -1,4 +1,4 @@
-import Enemy from "@/game/multi_shooting/enemies/Enemy";
+import Enemy from "@/game/multi-shooting/enemies/Enemy";
 export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 	protected speed = 500;
 	protected penetration = 100;
@@ -6,7 +6,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 
 	private hitEnemies: Phaser.Physics.Arcade.Group;
 	private readonly ANGLE_OFSET = Math.PI / 2;
-	private init_angle = 0;
+	private initAngle = 0;
 
 	constructor(scene: Phaser.Scene, x: number, y: number, angle: number) {
 		super(scene, x, y, "bullet");
@@ -14,7 +14,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		scene.physics.add.existing(this);
 
 		this.setRotation(angle);
-		this.init_angle = angle;
+		this.initAngle = angle;
 		this.hitEnemies = scene.physics.add.group();
 	}
 
@@ -24,12 +24,12 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	autoRotate() {
-		const _speed = this.scene.physics.velocityFromRotation(
-			this.init_angle - this.ANGLE_OFSET,
+		const velocityVector = this.scene.physics.velocityFromRotation(
+			this.initAngle - this.ANGLE_OFSET,
 			this.speed,
 			this.body?.velocity,
 		);
-		super.setVelocity(_speed.x, _speed.y);
+		super.setVelocity(velocityVector.x, velocityVector.y);
 	}
 
 	hitEnemy(enemy: Enemy) {
