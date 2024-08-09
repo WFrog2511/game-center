@@ -24,12 +24,12 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	autoRotate() {
-		const _speed = this.scene.physics.velocityFromRotation(
+		const velocityVector = this.scene.physics.velocityFromRotation(
 			this.initAngle - this.ANGLE_OFSET,
 			this.speed,
 			this.body?.velocity,
 		);
-		super.setVelocity(_speed.x, _speed.y);
+		super.setVelocity(velocityVector.x, velocityVector.y);
 	}
 
 	hitEnemy(enemy: Enemy) {
