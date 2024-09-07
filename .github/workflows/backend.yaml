@@ -1,0 +1,48 @@
+name: test-backend
+run-name: バックエンドのテスト
+on:
+  push:
+    branches:
+      - "main"
+      - "develop"
+    paths:
+      - "backend/**/*"
+  pull_request:
+    paths:
+      - "backend/**/*"
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: ./.github/actions/setup
+        with:
+          project-root-directory: ./
+          working-directory: "backend"
+  lint:
+    runs-on: ubuntu-22.04
+    needs: setup
+    steps:
+      - name: lint
+        shell: bash
+        run: pnpm lint
+        working-directory: "backend"
+  test:
+    runs-on: ubuntu-22.04
+    needs: setup
+    steps:
+      - name: test
+        shell: bash
+        run: pnpm test
+        working-directory: "backend"
+  build:
+    runs-on: ubuntu-22.04
+    needs: [lint, test]
+    environment:
+      name: development
+    steps:
+      - name: Build test
+        shell: bash
+        run: pnpm build
+        working-directory: "backend"
