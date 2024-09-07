@@ -25,6 +25,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: setup
     steps:
+      - uses: actions/checkout@v4
       - name: lint
         shell: bash
         run: pnpm lint
@@ -33,6 +34,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: setup
     steps:
+      - uses: actions/checkout@v4
       - name: test
         shell: bash
         run: pnpm test
@@ -43,6 +45,7 @@ jobs:
     environment:
       name: development
     steps:
+      - uses: actions/checkout@v4
       - name: Build test
         shell: bash
         run: pnpm build
