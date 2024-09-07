@@ -3,7 +3,7 @@ import Phaser from "phaser";
 
 import { gameConfig } from "@/game/multi-shooting/config/gameConfig";
 
-const MultiShootingWindow = () => {
+const MultiShootingCanvas = () => {
 	useEffect(() => {
 		const game = new Phaser.Game(gameConfig);
 
@@ -15,4 +15,4 @@ const MultiShootingWindow = () => {
 	return <div id="gameCanvas" />;
 };
 
-export default MultiShootingWindow;
+export default MultiShootingCanvas;
