@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
+  lint:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -21,20 +21,18 @@ jobs:
         with:
           project-root-directory: ./
           working-directory: "frontend"
-  lint:
-    runs-on: ubuntu-22.04
-    needs: setup
-    steps:
-      - uses: actions/checkout@v4
       - name: lint
         shell: bash
         run: pnpm lint
         working-directory: "frontend"
   test:
     runs-on: ubuntu-22.04
-    needs: setup
     steps:
       - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          project-root-directory: ./
+          working-directory: "frontend"
       - name: test
         shell: bash
         run: pnpm test
@@ -46,6 +44,10 @@ jobs:
       name: development
     steps:
       - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          project-root-directory: ./
+          working-directory: "frontend"
       - name: Build test
         shell: bash
         run: pnpm build
