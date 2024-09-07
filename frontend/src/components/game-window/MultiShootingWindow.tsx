@@ -1,24 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Phaser from "phaser";
 
 import { gameConfig } from "@/game/multi-shooting/config/gameConfig";
 
 const MultiShootingWindow = () => {
-	const gameArea = useRef(null);
-
 	useEffect(() => {
-		const makeGame = async () => {
-			if (!gameArea.current) return;
+		const game = new Phaser.Game(gameConfig);
 
-			// Next.jsでPhaserを使うためには、import()を使ってPhaserを動的に読み込む必要がある
-			const config = gameConfig;
-			config.parent = gameArea.current;
-			new Phaser.Game(config);
+		return () => {
+			game?.destroy(true);
 		};
-		makeGame();
 	}, []);
 
-	return <div ref={gameArea}></div>;
+	return <div id="gameCanvas" />;
 };
 
 export default MultiShootingWindow;
