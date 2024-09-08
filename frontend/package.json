@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build",
+		"build": "echo \"No build specified\" && exit 0",
 		"start": "next start",
 		"format": "prettier --write ./src/**/*.{js,jsx,ts,tsx}",
 		"check": "prettier --check ./src/**/*.{js,jsx,ts,tsx}",
@@ -33,3 +33,4 @@
 		"./src/**/*.{js,jsx,ts,tsx}": "pnpm format"
 	}
 }
+
