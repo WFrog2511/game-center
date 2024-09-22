@@ -1,0 +1,54 @@
+name: test-frontend
+run-name: フロントエンドのテスト
+on:
+  push:
+    branches:
+      - "main"
+      - "develop"
+    paths:
+      - "frontend/**/*"
+  pull_request:
+    paths:
+      - "frontend/**/*"
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          project-root-directory: ./
+          working-directory: "frontend"
+      - name: lint
+        shell: bash
+        run: pnpm lint
+        working-directory: "frontend"
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          project-root-directory: ./
+          working-directory: "frontend"
+      - name: test
+        shell: bash
+        run: pnpm test
+        working-directory: "frontend"
+  build:
+    runs-on: ubuntu-22.04
+    needs: [lint, test]
+    environment:
+      name: development
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          project-root-directory: ./
+          working-directory: "frontend"
+      - name: Build test
+        shell: bash
+        run: pnpm build
+        working-directory: "frontend"
