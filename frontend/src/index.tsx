@@ -1,18 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "@/index.css";
-import MultiShooting from "@/pages/games/multi-shooting";
+import App from "@/App";
 import reportWebVitals from "@/reportWebVitals";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement,
 );
 root.render(
-	// TODO: react-router-dom を使うか検討する
 	<React.StrictMode>
-		<MultiShooting />
+		<App />
 	</React.StrictMode>,
 );
 
-// TODO: 適切な場所にログを表示するように変更する
+// TODO: 実稼働時には非表示にする
 reportWebVitals(console.log);
