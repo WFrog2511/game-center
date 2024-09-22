@@ -101,9 +101,11 @@ export default class GameScene extends Phaser.Scene {
 	playerHitEnemy(
 		player:
 			| Phaser.Types.Physics.Arcade.GameObjectWithBody
+			| Phaser.Physics.Arcade.Body
 			| Phaser.Tilemaps.Tile,
 		enemy:
 			| Phaser.Types.Physics.Arcade.GameObjectWithBody
+			| Phaser.Physics.Arcade.Body
 			| Phaser.Tilemaps.Tile,
 	) {
 		enemy.destroy();
@@ -113,9 +115,11 @@ export default class GameScene extends Phaser.Scene {
 	playerCollectHealthPack(
 		player:
 			| Phaser.Types.Physics.Arcade.GameObjectWithBody
+			| Phaser.Physics.Arcade.Body
 			| Phaser.Tilemaps.Tile,
 		healthPack:
 			| Phaser.Types.Physics.Arcade.GameObjectWithBody
+			| Phaser.Physics.Arcade.Body
 			| Phaser.Tilemaps.Tile,
 	) {
 		healthPack.destroy();
@@ -124,12 +128,12 @@ export default class GameScene extends Phaser.Scene {
 
 	bulletHitEnemy(
 		bullet:
-			| Bullet
 			| Phaser.Types.Physics.Arcade.GameObjectWithBody
+			| Phaser.Physics.Arcade.Body
 			| Phaser.Tilemaps.Tile,
 		enemy:
-			| Enemy
 			| Phaser.Types.Physics.Arcade.GameObjectWithBody
+			| Phaser.Physics.Arcade.Body
 			| Phaser.Tilemaps.Tile,
 	) {
 		if (bullet instanceof Bullet && enemy instanceof Enemy) {

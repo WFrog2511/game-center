@@ -1,11 +1,12 @@
-import Link from "next/link";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const HomePage = () => (
 	<div>
 		<h1>Welcome to Game Center</h1>
 		<ul>
 			<li>
-				<Link href="/games/multi-shooting">2D Cooperative Shooting Game</Link>
+				<Link to="/multi-shooting">2D Cooperative Shooting Game</Link>
 			</li>
 			{/* 他のゲームのリンクを追加 */}
 		</ul>
